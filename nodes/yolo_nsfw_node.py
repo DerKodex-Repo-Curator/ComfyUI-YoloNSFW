@@ -152,7 +152,7 @@ class YoloNSFWNode:
         model = model.to(device)
         return model, device
 
-    def detect(self, images, model_name, device, conf=0.25, iou, blur="full", blur_radius=35, auto_release=False):
+    def detect(self, images, model_name, device, conf, iou, blur="full", blur_radius=50, auto_release=False):
         """
         Detect NSFW content in images.
 
