@@ -210,19 +210,16 @@ class YoloNSFWNode:
                     xyxy = box.xyxy[0].cpu().numpy()
                     boxes.append(xyxy)
                     
-            # Apply blur based on mode
-            if blur == "none":
-                # No blur, keep original
+            # Apply blur only if NSFW content detected
+            if not has_nsfw or blur == "none":
+                # No NSFW detected or blur disabled, keep original
                 output_img = pil_img
             elif blur == "full":
-                # Full image blur
+                # Full image blur only when NSFW detected
                 output_img = apply_full_blur(pil_img, blur_radius)
             elif blur == "partial":
                 # Partial blur on boxes only
-                if boxes:
-                    output_img = apply_blur_to_boxes(pil_img, boxes, blur_radius)
-                else:
-                    output_img = pil_img
+                output_img = apply_blur_to_boxes(pil_img, boxes, blur_radius)
             else:
                 output_img = pil_img
 
